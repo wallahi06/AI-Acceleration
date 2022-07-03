@@ -60,6 +60,7 @@ std::vector<int> Vector::zeros() {
     return input_vector;
 }
 
+
 // member of the Vector class that returns a vector of ones
 std::vector<int> Vector::ones() {
     for (unsigned int i = 0; i < input_size; i++) {
@@ -68,6 +69,7 @@ std::vector<int> Vector::ones() {
     
     return input_vector;
 }
+
 
 //member of the Vector class that returns a vector of random values
 std::vector<int> Vector::random(unsigned int size = 100) {
@@ -79,26 +81,27 @@ std::vector<int> Vector::random(unsigned int size = 100) {
 }
 
 
-
 // member of the Vector class that adds vector1 with vector2
 Vector Vector::sum(Vector term_vector) {
     
     Vector output_vector(Row_size, Col_size);
     output_vector.zeros();
     
-    try {
-        if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
-            for (unsigned int i = 0; i < input_size; i++) {
-                output_vector.input_vector[i] = input_vector[i] + term_vector.input_vector[i];
-                }
-        } else {
-            throw std::runtime_error("invalid size, cant combine different dimensions");
+
+    if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
+        
+        for (unsigned int i = 0; i < input_size; i++) {
+            
+            //we iterate over all the values of both vectors and add them each other
+            output_vector.input_vector[i] = input_vector[i] + term_vector.input_vector[i];
         }
-    } catch (std::runtime_error &error) {
-        std::cout << "Error occured: " << error.what() << std::endl;
+        
+    } else {
+        throw std::invalid_argument("invalid size, cant combine different dimensions");
     }
-    
+   
     return output_vector;
+    
 }
 
 
@@ -107,24 +110,25 @@ Vector Vector::diff(Vector term_vector) {
     
     Vector output_vector(Row_size, Col_size);
     output_vector.zeros();
-
-    try {
-        if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
-            for (unsigned int i = 0; i < input_size; i++) {
-                output_vector.input_vector[i] = input_vector[i] - term_vector.input_vector[i];
-                }
-        } else {
-            throw std::runtime_error("invalid size, cant combine different dimensions");
+    
+    if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
+        
+        for (unsigned int i = 0; i < input_size; i++) {
+            
+            //we iterate over all the values of both vectors and subtract them from each other
+            output_vector.input_vector[i] = input_vector[i] - term_vector.input_vector[i];
         }
-    } catch (std::runtime_error &error) {
-        std::cout << "Error occured: " << error.what() << std::endl;
+    } else {
+        throw std::invalid_argument("invalid size, cant combine different dimensions");
     }
     
     return output_vector;
+    
 }
 
 
 int main() {
+    
     return 0;
+    
 }
-
