@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 
+
 class Vector {
 public:
     // Constructor and destructor definition
@@ -11,7 +12,6 @@ public:
 
     void show();
     void dim();
-
 
     std::vector<int> zeros();
     std::vector<int> ones();
@@ -26,10 +26,4 @@ private:
     unsigned int Col_size;
     unsigned int input_size;
 };
-
-
-
-
-
-
 
