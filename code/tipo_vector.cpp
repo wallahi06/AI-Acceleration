@@ -7,7 +7,7 @@
 class Vector {
 public:
     // Constructor and destructor definition
-    Vector(unsigned int itsRow, unsigned int itsCol);
+    Vector(int itsRow, int itsCol);
     ~Vector() {};
 
     std::vector<int> input_vector;
@@ -18,21 +18,21 @@ public:
 
     std::vector<int> zeros();
     std::vector<int> ones();
-    std::vector<int> random(unsigned int size);
+    std::vector<int> random(int size = 100);
 
     Vector sum(Vector term_vector);
     Vector diff(Vector term_vector);
     Vector product(Vector term_vector);
 
 private:
-    unsigned int Row_size;
-    unsigned int Col_size;
-    unsigned int input_size;
+    int Row_size;
+    int Col_size;
+    int input_size;
 };
 
 
 // constructor of the Vector class
-Vector::Vector(unsigned int itsRow, unsigned int itsCol) {
+Vector::Vector(int itsRow, int itsCol) {
 
     Row_size = itsRow;
     Col_size = itsCol;
@@ -45,7 +45,7 @@ Vector::Vector(unsigned int itsRow, unsigned int itsCol) {
 
 // member of the Vector class that prints the structure of the vector
 void Vector::show() {
-    for (unsigned int i = 0; i < input_size; i++) {
+    for (int i = 0; i < input_size; i++) {
         if (i % Col_size == 0 && i != 0) {
             std::cout << std::endl << std::endl;
         }
@@ -63,7 +63,7 @@ void Vector::dim() {
 
 // member of the Vector class that returns a vector of zeros
 std::vector<int> Vector::zeros() {
-    for (unsigned int i = 0; i < input_size; i++) {
+    for (int i = 0; i < input_size; i++) {
         input_vector[i] = 0;
     }
 
@@ -73,7 +73,7 @@ std::vector<int> Vector::zeros() {
 
 // member of the Vector class that returns a vector of ones
 std::vector<int> Vector::ones() {
-    for (unsigned int i = 0; i < input_size; i++) {
+    for (int i = 0; i < input_size; i++) {
         input_vector[i] = 1;
     }
 
@@ -82,12 +82,9 @@ std::vector<int> Vector::ones() {
 
 
 //member of the Vector class that returns a vector of random values
-std::vector<int> Vector::random(unsigned int size = 100) {
+std::vector<int> Vector::random(int size) {
 
-    // set the seed of the random number generator
-    srand(time(0));
-
-    for (unsigned int i = 0; i < input_size; i++) {
+    for (int i = 0; i < input_size; i++) {
         input_vector[i] = rand() % size;
     }
 
@@ -104,7 +101,7 @@ Vector Vector::sum(Vector term_vector) {
 
     if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
 
-        for (unsigned int i = 0; i < input_size; i++) {
+        for (int i = 0; i < input_size; i++) {
 
             //we iterate over all the values of both vectors and add them each other
             output_vector.input_vector[i] = input_vector[i] + term_vector.input_vector[i];
@@ -128,7 +125,7 @@ Vector Vector::diff(Vector term_vector) {
 
     if (Col_size == term_vector.Col_size && Row_size == term_vector.Row_size) {
 
-        for (unsigned int i = 0; i < input_size; i++) {
+        for (int i = 0; i < input_size; i++) {
 
             //we iterate over all the values of both vectors and subtract them from each other
             output_vector.input_vector[i] = input_vector[i] - term_vector.input_vector[i];
@@ -152,12 +149,16 @@ Vector Vector::product(Vector term_vector) {
     // check if the columns of vector 1 is the same as the rows of vector 2
     if (Col_size == term_vector.Row_size) {
 
-        for (unsigned int i = 0; i < Row_size; i++) {
-            for (unsigned int j = 0; j < Col_size; j++) {
-                for (unsigned int k = 0; k < term_vector.Col_size; k++) {
+        for (int i = 0; i < Row_size; i++) {
+            for (int j = 0; j < term_vector.Col_size; j++) {
+                for (int k = 0; k < term_vector.Row_size; k++) {
+
+                    // we cast the 4 byte values into an 8 byte value to avoid overflow
+                    long long int casted_i = static_cast<int>(i);
+                    long long int casted_k = static_cast<int>(k);
 
                     //we iterate over all the values of both vectors and multiplies them with each other
-                    output_vector.input_vector[i * Col_size + j] += input_vector[i * term_vector.Col_size + k] * term_vector.input_vector[k * Col_size + j];
+                    output_vector.input_vector[casted_i * term_vector.Col_size + j] += input_vector[casted_i * Col_size + k] * term_vector.input_vector[casted_k * term_vector.Col_size + j];
                 }
             }
         }
@@ -170,4 +171,3 @@ Vector Vector::product(Vector term_vector) {
     return output_vector;
 
 }
-
