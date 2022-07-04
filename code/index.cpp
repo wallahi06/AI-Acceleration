@@ -18,7 +18,7 @@ public:
 
     std::vector<int> zeros();
     std::vector<int> ones();
-    std::vector<int> random(unsigned int i);
+    std::vector<int> random(unsigned int size);
 
     Vector sum(Vector term_vector);
     Vector diff(Vector term_vector);
@@ -171,9 +171,3 @@ Vector Vector::product(Vector term_vector) {
 
 }
 
-
-int main() {
-
-    return 0;
-
-}
