@@ -118,7 +118,6 @@ std::vector<int> Vector::random(int size) {
 }
 
 
-
 // member of the Vector class that return a vector of set values
 std::vector<int> Vector::fill(std::vector<int> set_vector) {
     if (input_size <= set_vector.size()) {
@@ -183,8 +182,6 @@ Vector Vector::diff(Vector term_vector) {
     return output_vector;
 
 }
-
-
 
 
 // member of the Vector class that multiplies vector1 with vector2
