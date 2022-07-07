@@ -1,39 +1,51 @@
+/* 
+* TipoVector.h
+* created by: Liam Nordvall togheter with TipoAI 2022-07-07
+* all resources is under MIT license and free to use for everyone, 
+* read more on https://github.com/wallahi06/tipoacc
+*/
+
+
 #pragma once
+
 #include <iostream>
+#include <string>
 #include <vector>
 
 #ifndef TIPO_VECTOR_H
 #define TIPO_VECTOR_H
 
 
-// The Vector class takes care of everything related to Tipo's vector/matrix operations, such as multiplicaiton 
-// of vectors and easily creating them using one of our pre-made methods for filling your vector with random 
-// values, zeros, ones or your own values using .fill
-template<class T>
+/*
+* the Vector class conatins all necessary methods for matrix and vector calculations,
+* it also provides easy to use tools for deeplearning and is mainly used to accelerate
+* large matrix calculations using the Tipo library. 
+*/
+template<class dtype>
 class Vector {
 public:
     // Constructor and destructor definition
     Vector(unsigned int itsRowSize, unsigned int itsColSize);
     ~Vector() {};
 
-    std::vector<T> input_vector;
+    std::vector<dtype> input_vector;
 
     // methods for getting information about your vectors
     void show();
     void dim();
 
     // methods for creating and structuring vectors
-    std::vector<T> zeros();
-    std::vector<T> ones();
-    std::vector<T> random(signed int interval = 100);
-    std::vector<T> fill(std::vector<T> set_vector);
+    std::vector<dtype> zeros();
+    std::vector<dtype> ones();
+    std::vector<dtype> random(signed int interval = 100);
+    std::vector<dtype> fill(std::vector<dtype> set_vector);
 
     // methods for calculations of the vectors
-    Vector<T> sum(Vector term_vector);
-    Vector<T> diff(Vector term_vector);
-    Vector<T> product(Vector term_vector);
-    Vector<T> divide(signed int denominator);
-    Vector<T> pow(signed int exponent);
+    Vector<dtype> sum(Vector<dtype> term_vector);
+    Vector<dtype> diff(Vector<dtype> term_vector);
+    Vector<dtype> product(Vector<dtype> term_vector);
+    Vector<dtype> divide(signed int denominator);
+    Vector<dtype> pow(signed int exponent);
 
 private:
     unsigned int row_size;
@@ -43,8 +55,8 @@ private:
 
 
 // constructor of the Vector class
-template<class T>
-Vector<T>::Vector(unsigned int itsRowSize, unsigned int itsColSize) {
+template<class dtype>
+Vector<dtype>::Vector(unsigned int itsRowSize, unsigned int itsColSize) {
 
     row_size = itsRowSize;
     col_size = itsColSize;
@@ -56,8 +68,8 @@ Vector<T>::Vector(unsigned int itsRowSize, unsigned int itsColSize) {
 
 
 // member of the Vector class that prints the structure of the vector
-template<class T>
-void Vector<T>::show() {
+template<class dtype>
+void Vector<dtype>::show() {
     for (unsigned int i = 0; i < input_size; i++) {
         if (i % col_size == 0 && i != 0) {
             std::cout << std::endl << std::endl;
@@ -69,15 +81,15 @@ void Vector<T>::show() {
 
 
 // prints the dimension and size of the given vector
-template<class T>
-void Vector<T>::dim() {
+template<class dtype>
+void Vector<dtype>::dim() {
     std::cout << row_size << "x" << col_size << std::endl;
 }
 
 
 // member of the Vector class that returns a vector of zeros
-template<class T>
-std::vector<T> Vector<T>::zeros() {
+template<class dtype>
+std::vector<dtype> Vector<dtype>::zeros() {
     if (col_size > 0 && row_size > 0) {
         for (unsigned int i = 0; i < input_size; i++) {
             input_vector[i] = 0;
@@ -92,8 +104,8 @@ std::vector<T> Vector<T>::zeros() {
 
 
 // member of the Vector class that returns a vector of ones
-template<class T>
-std::vector<T> Vector<T>::ones() {
+template<class dtype>
+std::vector<dtype> Vector<dtype>::ones() {
     if (col_size > 0 && row_size > 0) {
         for (unsigned int i = 0; i < input_size; i++) {
             input_vector[i] = 1;
@@ -108,8 +120,8 @@ std::vector<T> Vector<T>::ones() {
 
 
 //member of the Vector class that returns a vector of random values
-template<class T>
-std::vector<T> Vector<T>::random(signed int interval) {
+template<class dtype>
+std::vector<dtype> Vector<dtype>::random(signed int interval) {
 
     if (col_size > 0 && row_size > 0) {
         for (unsigned int i = 0; i < input_size; i++) {
@@ -126,8 +138,8 @@ std::vector<T> Vector<T>::random(signed int interval) {
 
 
 // member of the Vector class that return a vector of set values
-template<class T>
-std::vector<T> Vector<T>::fill(std::vector<T> set_vector) {
+template<class dtype>
+std::vector<dtype> Vector<dtype>::fill(std::vector<dtype> set_vector) {
     if (input_size <= set_vector.size()) {
         for (unsigned int i = 0; i < input_size; i++) {
 
@@ -145,10 +157,10 @@ std::vector<T> Vector<T>::fill(std::vector<T> set_vector) {
 
 
 // member of the Vector class that adds vector1 with vector2
-template<class T>
-Vector<T> Vector<T>::sum(Vector<T> term_vector) {
+template<class dtype>
+Vector<dtype> Vector<dtype>::sum(Vector<dtype> term_vector) {
 
-    Vector<T> output_vector(row_size, col_size);
+    Vector<dtype> output_vector(row_size, col_size);
     output_vector.zeros();
 
 
@@ -171,10 +183,10 @@ Vector<T> Vector<T>::sum(Vector<T> term_vector) {
 
 
 // member of the Vector class that subtracts vector1 with vector2
-template<class T>
-Vector<T> Vector<T>::diff(Vector<T> term_vector) {
+template<class dtype>
+Vector<dtype> Vector<dtype>::diff(Vector<dtype> term_vector) {
 
-    Vector<T> output_vector(row_size, col_size);
+    Vector<dtype> output_vector(row_size, col_size);
     output_vector.zeros();
 
     if (col_size == term_vector.col_size && row_size == term_vector.row_size) {
@@ -195,10 +207,10 @@ Vector<T> Vector<T>::diff(Vector<T> term_vector) {
 
 
 // member of the Vector class that multiplies vector1 with vector2
-template<class T>
-Vector<T> Vector<T>::product(Vector<T> term_vector) {
+template<class dtype>
+Vector<dtype> Vector<dtype>::product(Vector<dtype> term_vector) {
 
-    Vector<T> output_vector(row_size, term_vector.col_size);
+    Vector<dtype> output_vector(row_size, term_vector.col_size);
     output_vector.zeros();
 
     // check if the columns of vector 1 is the same as the rows of vector 2
@@ -228,10 +240,10 @@ Vector<T> Vector<T>::product(Vector<T> term_vector) {
 
 
 // member of the Vector class that divides all values in the vector by the denominator
-template<class T>
-Vector<T> Vector<T>::divide(signed int denominator) {
+template<class dtype>
+Vector<dtype> Vector<dtype>::divide(signed int denominator) {
 
-    Vector<T> output_vector(row_size, col_size);
+    Vector<dtype> output_vector(row_size, col_size);
     output_vector.zeros();
 
     if (denominator != 0) {
@@ -249,10 +261,10 @@ Vector<T> Vector<T>::divide(signed int denominator) {
 
 
 // member of the Vector class that powers all the values in the vector by the exponent
-template<class T>
-Vector<T> Vector<T>::pow(signed int exponent) {
+template<class dtype>
+Vector<dtype> Vector<dtype>::pow(signed int exponent) {
 
-    Vector<T> output_vector(row_size, col_size);
+    Vector<dtype> output_vector(row_size, col_size);
     output_vector.ones();
 
     for (unsigned int i = 0; i < input_size; i++) {
